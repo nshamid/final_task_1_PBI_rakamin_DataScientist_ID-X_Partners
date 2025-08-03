@@ -71,4 +71,3 @@ Setelah perbaikan *data leakage*, kedua model memberikan hasil yang realistis:
   - **Random Forest** menunjukkan performa keseluruhan yang sedikit lebih baik, terutama pada metrik **ROC-AUC (75.98%)**.
   - Kedua model memiliki kelemahan pada **recall** untuk kelas "Bad Loan" yang rendah, yang menandakan adanya tantangan dalam mendeteksi semua pinjaman berisiko karena sifat data yang tidak seimbang.
   - Untuk pengembangan lebih lanjut, disarankan untuk menerapkan teknik penanganan *imbalanced data* seperti **SMOTE**.
-    ```
