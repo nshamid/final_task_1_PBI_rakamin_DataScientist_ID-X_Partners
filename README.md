@@ -71,3 +71,19 @@ Setelah perbaikan *data leakage*, kedua model memberikan hasil yang realistis:
   - **Random Forest** menunjukkan performa keseluruhan yang sedikit lebih baik, terutama pada metrik **ROC-AUC (75.98%)**.
   - Kedua model memiliki kelemahan pada **recall** untuk kelas "Bad Loan" yang rendah, yang menandakan adanya tantangan dalam mendeteksi semua pinjaman berisiko karena sifat data yang tidak seimbang.
   - Untuk pengembangan lebih lanjut, disarankan untuk menerapkan teknik penanganan *imbalanced data* seperti **SMOTE**.
+
+-----
+
+## Tantangan
+Sebelumnya sudah dilakukan training model yang memberikan hasil akurasi 99.98% dan 99.96%, setelah ditelaah hasil ini terlalu bagus untuk menjadi kenyataan dan ini adalah pertanda adanya masalah. Dan penyebab utamanya dalam kasus ini kemungkinan besar adalah sesuatu yang lebih spesifik, yaitu Data Leakage (Kebocoran Data).
+Data leakage terjadi ketika model dilatih menggunakan informasi yang seharusnya tidak tersedia pada saat prediksi dibuat. Dalam kasus prediksi risiko kredit, model seharusnya hanya menggunakan data yang diketahui sebelum pinjaman disetujui (seperti pendapatan, histori kredit, dll.).
+
+Kolom-kolom berikut ini adalah contoh fitur yang membocorkan hasil akhir pinjaman dan menyebabkan akurasi menjadi tidak realistis:
+- `total_pymnt`: Total pembayaran yang sudah diterima. Jika pinjaman lunas, nilainya akan tinggi. Jika gagal bayar, nilainya akan rendah.
+- `total_rec_prncp`: Total pokok yang diterima.
+- `total_rec_int`: Total bunga yang diterima.
+- `recoveries`: Dana yang berhasil ditarik kembali setelah pinjaman gagal bayar. Jika nilainya > 0, sudah pasti itu adalah "Bad Loan".
+- `collection_recovery_fee`: Biaya penagihan.
+- `last_pymnt_amnt`: Jumlah pembayaran terakhir.
+
+Fitur-fitur ini baru ada setelah pinjaman berjalan, sehingga tidak bisa digunakan untuk memprediksi risiko di awal. Kemudian dilakukan perbaikan pada **Data Preparation** dengan menghapus kolom-kolom yang bocor ini.
